@@ -1,0 +1,23 @@
+{
+  "name": "@redpoint-strava-exporter/lib",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "7.16.7",
+    "@babel/preset-env": "7.16.7",
+    "@babel/preset-typescript": "7.16.7",
+    "@types/jest": "27.4.0",
+    "@types/plist": "3.0.2",
+    "babel-jest": "27.4.6",
+    "jest": "27.4.7",
+    "typescript": "4.5.4"
+  },
+  "dependencies": {
+    "gpx-builder": "3.8.0",
+    "plist": "3.0.4"
+  }
+}

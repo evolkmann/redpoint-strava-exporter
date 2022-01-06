@@ -1,0 +1,22 @@
+{
+  "name": "redpoint-strava-exporter",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build": "lerna run --parallel build",
+    "test": "lerna run --parallel test",
+    "--shortcuts to run commands in workspaces--": "",
+    "lib": "yarn workspace @redpoint-strava-exporter/lib"
+  },
+  "author": {
+    "name": "Enzo Volkmann",
+    "email": "enzo@exportarts.io",
+    "url": "https://github.com/evolkmann"
+  },
+  "devDependencies": {
+    "lerna": "4.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
