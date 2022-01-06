@@ -1,3 +1,6 @@
+import { ClimbingType, isSupportedClimbingType } from './climbing-type';
+import { isSupportedTickType, TickType } from './tick-type';
+
 /**
  * Represents a parsed `.plist` file that has been exported
  * using Redpoint 3.6
@@ -25,6 +28,8 @@ export interface RedpointActivity {
     difficultyData: DifficultyDataPoint[];
     heartRateData: HeartRateDataPoint[];
     energyDataPoints: EnergyDataPoint[];
+    // This key is also not spelled "DataPoints" (with uppercase P)
+    // in the plist file, in contrast to the other properties
     pauseDatapoints: unknown[];
     peakLabels: unknown[];
     userRemovedAscentManualDataPoints: unknown[];
@@ -35,6 +40,8 @@ export function isRedpointActivity(plist: any): plist is RedpointActivity {
     return typeof plist === 'object'
         && !(plist instanceof Date)
         && !Array.isArray(plist)
+        && isSupportedClimbingType(maybeActivity)
+        && isSupportedTickType(maybeActivity)
         && Array.isArray(maybeActivity.accelerationData)
         && Array.isArray(maybeActivity.altitudeData)
         && Array.isArray(maybeActivity.ascends)
@@ -62,14 +69,16 @@ export function isRedpointActivity(plist: any): plist is RedpointActivity {
         && typeof maybeActivity.uuid === 'string';
 }
 
-export interface AltitudeDataPoint {
-    altitude: number;
+interface TimestampedDataPoint {
     timestamp: number;
 }
 
-export interface ClimbingTypeDataPoint {
-    climbingType: string;
-    timestamp: string;
+export interface AltitudeDataPoint extends TimestampedDataPoint {
+    altitude: number;
+}
+
+export interface ClimbingTypeDataPoint extends TimestampedDataPoint {
+    climbingType: ClimbingType;
 }
 
 export interface DebugInformation {
@@ -87,16 +96,14 @@ export interface DeviceDetails {
     systemVersion: string;
 }
 
-export interface DifficultyDataPoint {
+export interface DifficultyDataPoint extends TimestampedDataPoint {
     difficulty: string;
     gradeScale: string;
-    tickType: 'boulderRepeat';
-    timestamp: number;
+    tickType: TickType;
 }
 
-export interface HeartRateDataPoint {
+export interface HeartRateDataPoint extends TimestampedDataPoint {
     heartRate: number;
-    timestamp: number;
 }
 
 export interface Location {
@@ -104,14 +111,12 @@ export interface Location {
     longitude: number;
 }
 
-export interface LocationDataPoint {
+export interface LocationDataPoint extends TimestampedDataPoint {
     absoluteAltitudeAboveSeaLevel: number;
     coordinate: Location;
-    timestamp: number;
 }
 
-export interface EnergyDataPoint {
+export interface EnergyDataPoint extends TimestampedDataPoint {
     calories: number;
     energyType: string;
-    timestamp: number;
 }

@@ -1,6 +1,8 @@
 import { parse as parsePlistFile } from 'plist';
+import { isSupportedClimbingType } from '../models/climbing-type';
 import { isRedpointActivity, RedpointActivity } from '../models/redpoint-activity';
-import { ParserError } from './parser-error';
+import { isSupportedTickType } from '../models/tick-type';
+import { ParserError, UnsupportedClimbingTypeError, UnsupportedTickTypeError } from './parser-error';
 
 export class Parser {
 
@@ -10,7 +12,13 @@ export class Parser {
         const parsed = parsePlistFile(str);
 
         if (!isRedpointActivity(parsed)) {
-            throw new ParserError('not a redpoint activity');
+            if (isSupportedClimbingType(parsed) === false) {
+                throw new UnsupportedClimbingTypeError(parsed);
+            }
+            if (isSupportedTickType(parsed) === false) {
+                throw new UnsupportedTickTypeError(parsed);
+            }
+            throw new ParserError();
         }
 
         return parsed;
