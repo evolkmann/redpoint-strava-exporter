@@ -1,67 +1,65 @@
-import { PlistValue, PlistObject } from 'plist';
-
 /**
  * Represents a parsed `.plist` file that has been exported
  * using Redpoint 3.6
  */
 export interface RedpointActivity {
+    uuid: string;
+    isCompleted: boolean;
+    isDemoSession: boolean;
+    isUploadedToCloudKit: boolean;
+    submittedToLeaderboard: boolean;
+    startDate: Date;
+    endDate: Date;
+    modificationDate: Date;
+    userComment: string;
+    debugInformation: DebugInformation;
+    debugLogs: string[];
+    deviceDetails: DeviceDetails;
+    location: Location;
+    locationDataPoints: LocationDataPoint[];
     accelerationData: unknown[];
     altitudeData: AltitudeDataPoint[];
     ascends: unknown[];
     attitudeData: unknown[];
     climbingTypeDataPoints: ClimbingTypeDataPoint[];
-    debugInformation: DebugInformation;
-    debugLogs: string[];
-    deviceDetails: DeviceDetails;
     difficultyData: DifficultyDataPoint[];
     heartRateData: HeartRateDataPoint[];
-    isCompleted: boolean;
-    isDemoSession: boolean;
-    isUploadedToCloudKit: boolean;
-    location: Location;
-    locationDataPoints: LocationDataPoint[];
-    startDate: Date;
-    endDate: Date;
     energyDataPoints: EnergyDataPoint[];
-    modificationDate: Date;
     pauseDatapoints: unknown[];
     peakLabels: unknown[];
-    submittedToLeaderboard: boolean;
-    userComment: string;
     userRemovedAscentManualDataPoints: unknown[];
-    uuid: string;
 }
 
 export function isRedpointActivity(plist: any): plist is RedpointActivity {
+    const maybeActivity = plist as Partial<RedpointActivity>;
     return typeof plist === 'object'
-        && !Array.isArray(plist)
         && !(plist instanceof Date)
-        && Array.isArray((plist as PlistObject).accelerationData)
-        && Array.isArray((plist as PlistObject).altitudeData)
-        && Array.isArray((plist as PlistObject).ascends)
-        && Array.isArray((plist as PlistObject).attitudeData)
-        && Array.isArray((plist as PlistObject).climbingTypeDataPoints)
-        && typeof (plist as PlistObject).debugInformation === 'object'
-        && Array.isArray((plist as PlistObject).debugLogs)
-        && typeof (plist as PlistObject).deviceDetails === 'object'
-        && Array.isArray((plist as PlistObject).difficultyData)
-        && Array.isArray((plist as PlistObject).heartRateData)
-        && typeof (plist as PlistObject).isCompleted === 'boolean'
-        && typeof (plist as PlistObject).isDemoSession === 'boolean'
-        && typeof (plist as PlistObject).isUploadedToCloudKit === 'boolean'
-        && typeof (plist as PlistObject).location === 'object'
-        && Array.isArray((plist as PlistObject).locationDataPoints)
-        && Array.isArray((plist as PlistObject).energyDataPoints)
-        && ((plist as PlistObject).startDate instanceof Date)
-        && ((plist as PlistObject).endDate instanceof Date)
-        && ((plist as PlistObject).modificationDate instanceof Date)
-        && Array.isArray((plist as PlistObject).pauseDatapoints)
-        && Array.isArray((plist as PlistObject).peakLabels)
-        && typeof (plist as PlistObject).submittedToLeaderboard === 'boolean'
-        && typeof (plist as PlistObject).userComment === 'string'
-        && Array.isArray((plist as PlistObject).userRemovedAscentManualDataPoints)
-        && typeof (plist as PlistObject).uuid === 'string'
-
+        && !Array.isArray(plist)
+        && Array.isArray(maybeActivity.accelerationData)
+        && Array.isArray(maybeActivity.altitudeData)
+        && Array.isArray(maybeActivity.ascends)
+        && Array.isArray(maybeActivity.attitudeData)
+        && Array.isArray(maybeActivity.climbingTypeDataPoints)
+        && Array.isArray(maybeActivity.debugLogs)
+        && Array.isArray(maybeActivity.difficultyData)
+        && Array.isArray(maybeActivity.energyDataPoints)
+        && Array.isArray(maybeActivity.heartRateData)
+        && Array.isArray(maybeActivity.locationDataPoints)
+        && Array.isArray(maybeActivity.pauseDatapoints)
+        && Array.isArray(maybeActivity.peakLabels)
+        && Array.isArray(maybeActivity.userRemovedAscentManualDataPoints)
+        && (maybeActivity.startDate instanceof Date)
+        && (maybeActivity.endDate instanceof Date)
+        && (maybeActivity.modificationDate instanceof Date)
+        && typeof maybeActivity.debugInformation === 'object'
+        && typeof maybeActivity.deviceDetails === 'object'
+        && typeof maybeActivity.isCompleted === 'boolean'
+        && typeof maybeActivity.isDemoSession === 'boolean'
+        && typeof maybeActivity.isUploadedToCloudKit === 'boolean'
+        && typeof maybeActivity.location === 'object'
+        && typeof maybeActivity.submittedToLeaderboard === 'boolean'
+        && typeof maybeActivity.userComment === 'string'
+        && typeof maybeActivity.uuid === 'string';
 }
 
 export interface AltitudeDataPoint {
