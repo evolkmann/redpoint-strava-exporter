@@ -7,3 +7,5 @@ lerna-debug.log
 
 packages/lib/test/output
 !packages/lib/test/output/.gitkeep
+
+packages/cli/src/version.ts

@@ -6,7 +6,8 @@
     "build": "lerna run --parallel build",
     "test": "lerna run --parallel test",
     "--shortcuts to run commands in workspaces--": "",
-    "lib": "yarn workspace @redpoint-strava-exporter/lib"
+    "lib": "yarn workspace @redpoint-strava-exporter/lib",
+    "cli": "yarn workspace @redpoint-strava-exporter/cli"
   },
   "author": {
     "name": "Enzo Volkmann",

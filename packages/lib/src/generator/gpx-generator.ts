@@ -5,7 +5,7 @@ import { GPXBuildData } from 'gpx-builder/dist/types';
 import { RedpointActivity } from '../models/redpoint-activity';
 import Generator from './generator';
 
-export default class GpxGenerator extends Generator<GPXBuildData> {
+export class GpxGenerator extends Generator<GPXBuildData> {
 
     static CREATOR = 'evolkmann/redpoint-strava-exporter with Barometer';
 

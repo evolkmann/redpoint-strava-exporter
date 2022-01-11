@@ -1,8 +1,8 @@
 import { promises as fsp } from 'fs';
-import {join} from 'path';
+import { join } from 'path';
 import { RedpointActivity } from '../models/redpoint-activity';
 import { Parser } from '../parser/parser';
-import GpxGenerator from './gpx-generator';
+import { GpxGenerator } from './gpx-generator';
 
 describe('GpxGenerator', () => {
     let activity: RedpointActivity;

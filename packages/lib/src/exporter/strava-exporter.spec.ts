@@ -1,10 +1,10 @@
 import { promises as fsp } from 'fs';
-import GpxGenerator from '../generator/gpx-generator';
+import { GpxGenerator } from '../generator/gpx-generator';
 import { ExportLanguage, ExportOptions } from '../models/export';
 import { RedpointActivity } from '../models/redpoint-activity';
 import { StravaActivityTypeTextual } from '../models/strava';
 import { Parser } from '../parser/parser';
-import StravaExporter from './strava-exporter';
+import { StravaExporter } from './strava-exporter';
 
 const expectStringInFormData = (formData: string, field: string, value: string) => {
     expect(formData).toContain(`name="${field}"\r\n\r\n${value}`);

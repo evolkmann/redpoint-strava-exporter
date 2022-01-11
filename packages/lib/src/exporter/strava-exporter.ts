@@ -1,10 +1,10 @@
-import GpxGenerator from '../generator/gpx-generator';
+import FormData from 'form-data';
+import { GpxGenerator } from '../generator/gpx-generator';
 import { ExportOptions } from '../models/export';
 import { RedpointActivity } from '../models/redpoint-activity';
 import { StravaActivityTypeTextual } from '../models/strava';
-import FormData from 'form-data';
 
-export default class StravaExporter {
+export class StravaExporter {
 
     static getFormData(activity: RedpointActivity, options: ExportOptions): FormData {
         const formData = new FormData();
