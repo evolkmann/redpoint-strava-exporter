@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/.env
+lerna-debug.log
+**/tsconfig.tsbuildinfo
+.DS_Store
+
+packages/lib/test/output
+!packages/lib/test/output/.gitkeep

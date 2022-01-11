@@ -1,4 +1,6 @@
 import { PlistValue } from 'plist';
+import { UnsupportedLanguageError } from '../exporter/exporter-error';
+import { ExportLanguage } from './export';
 import { RedpointActivity } from './redpoint-activity';
 
 /**
@@ -26,4 +28,19 @@ export function isSupportedTickType(activity?: Partial<RedpointActivity> | Plist
     }
 
     return undefined;
+}
+
+export function getTickTypeLabel(tickType: TickType, language: ExportLanguage) {
+    switch (language) {
+        case ExportLanguage.DE: {
+            switch (tickType) {
+                case TickType.ATTEMPT: return 'Nicht geschafft';
+                case TickType.FLASH: return 'Flash';
+                case TickType.BOULDER_REPEAT: return 'Wiederholung';
+                case TickType.BOULDER_SEND: return 'Send';
+            }
+            throw new Error(`No label for tick type ${tickType}`);
+        }
+        default: throw new UnsupportedLanguageError(language);
+    }
 }

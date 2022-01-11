@@ -1,5 +1,8 @@
+import { UnsupportedLanguageError } from '../exporter/exporter-error';
 import { ClimbingType, isSupportedClimbingType } from './climbing-type';
-import { isSupportedTickType, TickType } from './tick-type';
+import { ExportLanguage, ExportOptions } from './export';
+import { getTickTypeLabel, isSupportedTickType, TickType } from './tick-type';
+import { Duration, Interval } from 'luxon';
 
 /**
  * Represents a parsed `.plist` file that has been exported
@@ -67,6 +70,30 @@ export function isRedpointActivity(plist: any): plist is RedpointActivity {
         && typeof maybeActivity.submittedToLeaderboard === 'boolean'
         && typeof maybeActivity.userComment === 'string'
         && typeof maybeActivity.uuid === 'string';
+}
+
+export function getActivityDescription(activity: RedpointActivity, options: Pick<ExportOptions, 'language'>): string {
+    if (options.language !== ExportLanguage.DE) {
+        throw new UnsupportedLanguageError(options.language);
+    }
+
+    const topDifficulty = activity.difficultyData
+        .sort((a, b) => b.difficulty.localeCompare(a.difficulty))[0].difficulty;
+    const topFlash = activity.difficultyData
+        .filter(p => p.tickType === TickType.FLASH)
+        .sort((a, b) => b.difficulty.localeCompare(a.difficulty))?.[0]?.difficulty;
+    const ascends = activity.difficultyData
+        .sort((a, b) => a.timestamp - b.timestamp)
+        .map(p => {
+            const type = getTickTypeLabel(p.tickType, options.language);
+            return `Grad: ${p.difficulty} (${type})`;
+        });
+
+    return `Top-Grad: ${topDifficulty}
+Top-Flash: ${topFlash || '-'}
+    
+Aufstiege:
+${ascends.map(a => `- ${a}`).join('\n')}`;
 }
 
 interface TimestampedDataPoint {
