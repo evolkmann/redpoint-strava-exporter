@@ -21,6 +21,5 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn lib test
-      - run: yarn lib build
       - run: yarn cli test
       - run: yarn cli build
