@@ -78,7 +78,7 @@ export function getActivityDescription(activity: RedpointActivity, options: Pick
     }
 
     const topDifficulty = activity.difficultyData
-        .sort((a, b) => b.difficulty.localeCompare(a.difficulty))[0].difficulty;
+        .sort((a, b) => b.difficulty.localeCompare(a.difficulty))?.[0]?.difficulty;
     const topFlash = activity.difficultyData
         .filter(p => p.tickType === TickType.FLASH)
         .sort((a, b) => b.difficulty.localeCompare(a.difficulty))?.[0]?.difficulty;
@@ -89,7 +89,7 @@ export function getActivityDescription(activity: RedpointActivity, options: Pick
             return `Grad: ${p.difficulty} (${type})`;
         });
 
-    return `Top-Grad: ${topDifficulty}
+    return `Top-Grad: ${topDifficulty || '-'}
 Top-Flash: ${topFlash || '-'}
     
 Aufstiege:
