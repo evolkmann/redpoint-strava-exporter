@@ -2,7 +2,6 @@ import { UnsupportedLanguageError } from '../exporter/exporter-error';
 import { ClimbingType, isSupportedClimbingType } from './climbing-type';
 import { ExportLanguage, ExportOptions } from './export';
 import { getTickTypeLabel, isSupportedTickType, TickType } from './tick-type';
-import { Duration, Interval } from 'luxon';
 
 /**
  * Represents a parsed `.plist` file that has been exported
@@ -72,7 +71,7 @@ export function isRedpointActivity(plist: any): plist is RedpointActivity {
         && typeof maybeActivity.uuid === 'string';
 }
 
-export function getActivityDescription(activity: RedpointActivity, options: Pick<ExportOptions, 'language'>): string {
+export function getActivityDescription(activity: RedpointActivity, options: Pick<ExportOptions, 'language' | 'venue'>): string {
     if (options.language !== ExportLanguage.DE) {
         throw new UnsupportedLanguageError(options.language);
     }
@@ -89,11 +88,19 @@ export function getActivityDescription(activity: RedpointActivity, options: Pick
             return `Grad: ${p.difficulty} (${type})`;
         });
 
-    return `Top-Grad: ${topDifficulty || '-'}
-Top-Flash: ${topFlash || '-'}
-    
-Aufstiege:
-${ascends.map(a => `- ${a}`).join('\n')}`;
+    const lines: string[] = [
+        `Top-Grad: ${topDifficulty || '-'}`,
+        `Top-Flash: ${topFlash || '-'}`,
+        ``,
+        `Aufstiege:`,
+        ...ascends.map(a => `- ${a}`)
+    ];
+
+    if (options.venue) {
+        lines.unshift(`Ort: ${options.venue}`);
+    }
+
+    return lines.join('\n')
 }
 
 interface TimestampedDataPoint {

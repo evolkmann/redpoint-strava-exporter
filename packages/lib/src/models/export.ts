@@ -8,4 +8,8 @@ export interface ExportOptions {
     language: ExportLanguage;
     activityName: (activity: RedpointActivity) => string;
     activityDescription?: (activity: RedpointActivity) => string;
+    /**
+     * The location where the activity took place.
+     */
+    venue?: string;
 }
