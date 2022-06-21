@@ -19,3 +19,4 @@ jobs:
       - run: yarn lib test
       - run: yarn cli test
       - run: yarn cli build
+      - run: yarn client build
