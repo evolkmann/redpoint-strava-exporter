@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { StravaOauthTokenResponse } from '@redpoint-strava-exporter/lib';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { AthleteService } from './athlete.service';
 import { TokenHandlerService } from './token-handler.service';
 
 @Injectable({
@@ -13,7 +14,8 @@ export class OAuthService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly athleteService: AthleteService
   ) { }
 
   login(): Observable<null> {
@@ -30,6 +32,7 @@ export class OAuthService {
         return this.http.post<StravaOauthTokenResponse>('https://www.strava.com/oauth/token', formData).pipe(
           tap(r => {
             TokenHandlerService.saveAccessToken(r.access_token, r.expires_at);
+            this.athleteService.athlete = r.athlete;
           }),
           switchMap(_ => this.router.navigate([], {
             queryParams: {
@@ -53,6 +56,11 @@ export class OAuthService {
     }
 
     return of(null);
+  }
+
+  logout(): void {
+    TokenHandlerService.clearAccessToken();
+    location.reload();
   }
 
 }
