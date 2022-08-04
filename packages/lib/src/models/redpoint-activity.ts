@@ -71,16 +71,13 @@ export function isRedpointActivity(plist: any): plist is RedpointActivity {
         && typeof maybeActivity.uuid === 'string';
 }
 
-export function getActivityDescription(activity: RedpointActivity, options: Pick<ExportOptions, 'language' | 'venue'>): string {
+export function getActivityDescription(activity: RedpointActivity, options: Pick<ExportOptions, 'language' | 'venue' | 'difficultyOrder'>): string {
     if (options.language !== ExportLanguage.DE) {
         throw new UnsupportedLanguageError(options.language);
     }
 
-    const topDifficulty = activity.difficultyData
-        .sort((a, b) => b.difficulty.localeCompare(a.difficulty))?.[0]?.difficulty;
-    const topFlash = activity.difficultyData
-        .filter(p => p.tickType === TickType.FLASH)
-        .sort((a, b) => b.difficulty.localeCompare(a.difficulty))?.[0]?.difficulty;
+    const topDifficulty = getTopDifficulty(activity, options);
+    const topFlash = getTopDifficulty(activity, options, TickType.FLASH);
     const ascends = activity.difficultyData
         .sort((a, b) => a.timestamp - b.timestamp)
         .map(p => {
@@ -101,6 +98,28 @@ export function getActivityDescription(activity: RedpointActivity, options: Pick
     }
 
     return lines.join('\n')
+}
+
+function getTopDifficulty(activity: RedpointActivity, options?: Pick<ExportOptions, 'difficultyOrder'>, filterByTickType?: TickType): string | undefined {
+    if (!activity?.difficultyData?.length) {
+        return undefined;
+    }
+
+    const orderedDifficulties = options?.difficultyOrder?.split(',').reverse();
+    const filtered = activity.difficultyData.filter(d => !filterByTickType || d.tickType === filterByTickType);
+
+    if (!filtered.length) {
+        return undefined;
+    }
+
+    return filtered
+        .map(d => ({
+            difficulty: d.difficulty,
+            order: orderedDifficulties?.length
+                ? orderedDifficulties.findIndex(x => x === d.difficulty).toString()
+                : d.difficulty
+        }))
+        .sort((a, b) => b.order.localeCompare(a.order))[0].difficulty;
 }
 
 interface TimestampedDataPoint {

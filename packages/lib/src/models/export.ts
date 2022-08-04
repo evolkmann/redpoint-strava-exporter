@@ -12,4 +12,11 @@ export interface ExportOptions {
      * The location where the activity took place.
      */
     venue?: string;
+    /**
+     * Comma-separated string which sorts the difficulties from highest to lowest.
+     * Useful if the difficulties can not be sorted automatically/alphabetically.
+     *
+     * @example 'red,blue,orange'
+     */
+    difficultyOrder?: string;
 }

@@ -33,4 +33,32 @@ describe('Redpoint Activity', () => {
             expect(desc).toContain('Top-Grad: 2');
         });
     });
+
+    describe('getTopDifficulties', () => {
+        it ('should handle numeric scales', async () => {
+            const file = await fsp.readFile('./test/data/boulder-session.plist');
+            expect(file.length).toEqual(313112);
+            const activity = Parser.parse(file);
+
+            const desc = getActivityDescription(activity, {
+                language: ExportLanguage.DE
+            });
+
+            expect(desc).toContain('Top-Flash: 3');
+            expect(desc).toContain('Top-Grad: 5');
+        });
+        it ('should handle custom scales', async () => {
+            const file = await fsp.readFile('./test/data/boulder-session-custom-difficulties.plist');
+            expect(file.length).toEqual(288294);
+            const activity = Parser.parse(file);
+
+            const desc = getActivityDescription(activity, {
+                language: ExportLanguage.DE,
+                difficultyOrder: 'Rot,Orange,Blau,Grün,Lila,Gelb,Pink,Weiß'
+            });
+
+            expect(desc).toContain('Top-Flash: Grün');
+            expect(desc).toContain('Top-Grad: Blau');
+        });
+    });
 });
