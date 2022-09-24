@@ -23,7 +23,7 @@
     "form-data": "4.0.0",
     "gpx-builder": "3.8.0",
     "luxon": "2.3.0",
-    "plist": "3.0.4"
+    "plist": "3.0.6"
   },
   "jest": {
     "modulePathIgnorePatterns": [
