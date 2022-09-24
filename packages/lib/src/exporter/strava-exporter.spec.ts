@@ -2,7 +2,7 @@ import { promises as fsp } from 'fs';
 import { GpxGenerator } from '../generator/gpx-generator';
 import { ExportLanguage, ExportOptions } from '../models/export';
 import { RedpointActivity } from '../models/redpoint-activity';
-import { StravaActivityTypeTextual } from '../models/strava';
+import { StravaSportType } from '../models/strava';
 import { Parser } from '../parser/parser';
 import { StravaExporter } from './strava-exporter';
 
@@ -33,7 +33,7 @@ describe('StravaExporter', () => {
         const formDataStr = formData.getBuffer().toString();
 
         expectStringInFormData(formDataStr, 'data_type', 'gpx');
-        expectStringInFormData(formDataStr, 'activity_type', StravaActivityTypeTextual.ROCKCLIMBING);
+        expectStringInFormData(formDataStr, 'sport_type', StravaSportType.ROCK_CLIMBING);
         expectStringInFormData(formDataStr, 'name', options.activityName(activity));
         expectStringInFormData(formDataStr, 'description', options.activityDescription(activity));
         expectStringInFormData(formDataStr, 'commute', '0');

@@ -2,7 +2,7 @@ import FormData from 'form-data';
 import { GpxGenerator } from '../generator/gpx-generator';
 import { ExportOptions } from '../models/export';
 import { RedpointActivity } from '../models/redpoint-activity';
-import { StravaActivityTypeTextual } from '../models/strava';
+import { StravaSportType } from '../models/strava';
 
 export class StravaExporter {
 
@@ -14,7 +14,7 @@ export class StravaExporter {
         const gpxXml = gpxGenerator.toFile(gpx);
 
         formData.append('data_type', 'gpx');
-        formData.append('activity_type', StravaActivityTypeTextual.ROCKCLIMBING);
+        formData.append('sport_type', StravaSportType.ROCK_CLIMBING);
         formData.append('external_id', activity.uuid);
         formData.append('name', options.activityName(activity));
         formData.append('description', options.activityDescription(activity));

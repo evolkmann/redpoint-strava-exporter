@@ -1,3 +1,3 @@
-export enum StravaActivityTypeTextual {
-    ROCKCLIMBING = 'rockclimbing'
+export enum StravaSportType {
+    ROCK_CLIMBING = 'RockClimbing'
 }
