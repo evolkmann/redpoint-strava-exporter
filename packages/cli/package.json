@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@redpoint-strava-exporter/lib": "^0.1.0",
-    "commander": "8.3.0"
+    "commander": "9.4.1"
   },
   "jest": {
     "modulePathIgnorePatterns": [
