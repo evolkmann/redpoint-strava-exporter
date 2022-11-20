@@ -1,0 +1,18 @@
+<div
+  *ngIf="athlete$ | async as athlete"
+>
+  <hr>
+  <div>
+    Eingeloggt als
+    <img
+      [src]="athlete.profile"
+    >
+    {{athlete.username}}
+    <span
+      role="button"
+      (click)="oauth.logout()"
+    >
+      (Abmelden)
+    </span>
+  </div>
+</div>

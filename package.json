@@ -3,6 +3,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "start": "lerna run --parallel start --ignore @redpoint-strava-exporter/cli",
     "build": "lerna run --parallel build",
     "test": "lerna run --parallel test",
     "--shortcuts to run commands in workspaces--": "",

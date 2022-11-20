@@ -1,0 +1,30 @@
+div {
+  width: 90%;
+  margin: 16px auto;
+  text-align: center;
+  color: var(--color-grey);
+
+  & div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    & img {
+      width: 24px;
+      border-radius: 50%;
+      margin: 0 5px;
+    }
+
+    & span {
+      &[role="button"] {
+        margin-left: 3px;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
