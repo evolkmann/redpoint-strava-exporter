@@ -22,7 +22,7 @@
   "dependencies": {
     "form-data": "4.0.0",
     "gpx-builder": "3.8.0",
-    "luxon": "2.5.0",
+    "luxon": "2.5.2",
     "plist": "3.0.6"
   },
   "jest": {
